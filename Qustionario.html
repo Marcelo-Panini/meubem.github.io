@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionário</title>
+    <style> 
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        .container:hover {
+            transform: translateY(-5px);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .question {
+            margin-bottom: 15px;
+        }
+        label {
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result, .error {
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .result {
+            color: #333;
+        }
+        .link {
+            margin-top: 10px;
+            text-align: center;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Questionário</h1>
+        <form id="quizForm">
+            <div class="question">
+                <label>1. Qual é minha cor favorita?</label><br>
+                <input type="radio" name="color" value="Roxo" required> Roxo<br>
+                <input type="radio" name="color" value="Azul"> Azul<br>
+                <input type="radio" name="color" value="Verde"> Verde<br>
+                <input type="radio" name="color" value="Amarelo"> Amarelo
+            </div>
+            <div class="question">
+                <label>2. Qual é o meu chocolate favorito?</label><br>
+                <input type="radio" name="chocolate" value="Ouro Branco" required> Ouro Branco<br>
+                <input type="radio" name="chocolate" value="Alpino"> Alpino<br>
+                <input type="radio" name="chocolate" value="Stikadinho"> Stikadinho<br>
+                <input type="radio" name="chocolate" value="Kit Kat"> Kit Kat
+            </div>
+            <div class="question">
+                <label>3. Coisas aleatórias mas com uma resposta certa:</label><br>
+                <input type="radio" name="coisa" value="Onibus Verde" required> Onibus Verde<br>
+                <input type="radio" name="coisa" value="Moto Rosa"> Moto Rosa<br>
+                <input type="radio" name="coisa" value="Celta Amarelo"> Celta Amarelo<br>
+                <input type="radio" name="coisa" value="Civic Azul"> Civic Azul
+            </div>
+            <button type="submit">Enviar</button>
+        </form>
+        <div id="result" class="result"></div>
+        <div id="link" class="link" style="display: none;">
+            <a href="Video.html" target="_blank">Clique aqui para acessar o link!</a>
+        </div>
+        <div id="error" class="error" style="display: none;"></div>
+    </div>
+    <script>
+        document.getElementById('quizForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Impede o envio do formulário
+
+            const color = this.color.value;
+            const chocolate = this.chocolate.value; // Correto: chocolate
+            const coisa = this.coisa.value; // Corrigido: agora captura a resposta da terceira pergunta
+
+            const resultDiv = document.getElementById('result');
+            const linkDiv = document.getElementById('link');
+            const errorDiv = document.getElementById('error');
+
+            resultDiv.innerHTML = `Sua cor favorita é <strong>${color}</strong>, seu chocolate favorito é <strong>${chocolate}</strong> e a resposta correta da terceira pergunta é <strong>${coisa}</strong>.`;
+
+            // Verifica se as alternativas corretas foram escolhidas
+            const errors = [];
+            if (color !== "Roxo") errors.push("cor favorita");
+            if (chocolate !== "Stikadinho") errors.push("chocolate favorito");
+            if (coisa !== "Celta Amarelo") errors.push("coisa aleatória"); // Corrigido: agora verifica a resposta da terceira pergunta
+
+            if (errors.length === 0) {
+                linkDiv.style.display = 'block'; // Exibe o link
+                errorDiv.style.display = 'none'; // Esconde o aviso de erro
+            } else {
+                linkDiv.style.display = 'none'; // Esconde o link
+                errorDiv.innerHTML = `Respostas erradas nas seguintes questões: ${errors.join(", ")}. Tente novamente.`; // Mensagem de erro
+                errorDiv.style.display = 'block'; // Exibe o aviso de erro
+            }
+        });
+    </script>
+</body>
+</html>
